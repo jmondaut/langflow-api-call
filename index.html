@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Langflow API call</title>
+</head>
+<body>
+    <script>
+        function callAIChat(){
+          const message = document.getElementById("message").value;
+          fetch("http://127.0.0.1:7861/api/v1/run/aeaa7fee-8e62-4036-9168-ee28d3a40c8a?stream=false", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            input_value: message,
+            output_type: "chat",
+            input_type: "chat",
+            tweaks: {
+              "ChatInput-Ebtfn": {},
+              "Prompt-coEky": {},
+              "ChatOutput-CV3eE": {},
+              "OllamaModel-670Qj": {}
+            }
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            document.getElementById("response").innerText = data.outputs[0].outputs[0].results.message.data.text;
+          })
+          .catch(error => {
+            console.error("Error:", error);
+          });
+        }
+        </script>
+    <h1>Langflow API call</h1>
+    <label for="message">Message:</label><br>
+    <input type="text" id="message" name="message"><br>
+    <button onclick="callAIChat()">Send</button>
+
+    <label for="response">Response:</label><br>
+    <p id="response"></p>
+</body>
+</html>
